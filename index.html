@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guess the Number</title>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f2f5fa; /* Soft light background */
+      }
+
+      #game-container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      #message {
+        margin: 15px 0;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 1.1em;
+        transition: opacity 0.3s ease, background-color 0.3s ease; /* Smooth message transitions */
+      }
+
+      input,
+      button {
+        padding: 12px 20px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1em;
+        transition: background-color 0.2s ease; /* Input and button hover effects */
+      }
+
+      input:focus,
+      button:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(243, 203, 56, 0.6); /* Yellow focus ring */
+        transition: box-shadow 0.2s ease;
+      }
+
+      button {
+        background: #e0f2f1; /* Light blue background */
+        color: #333;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      button:hover {
+        background: #b5e6ec; /* Darker blue on hover */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game-container">
+      <h1>Guess the Number</h1>
+      <p id="message"></p>
+      <input type="number" id="guess-input" placeholder="Enter your guess" />
+      <button id="guess-btn">Submit</button>
+    </div>
+
+    <script>
+      // Game variables
+      const guessInput = document.getElementById("guess-input");
+      const guessBtn = document.getElementById("guess-btn");
+      const messageElement = document.getElementById("message");
+      let secretNumber = Math.floor(Math.random() * 100) + 1; // Random number between 1 and 100
+      let attemptsLeft = 5; // Allow 5 attempts
+
+      guessBtn.addEventListener("click", function () {
+        const guess = parseInt(guessInput.value);
+
+        if (isNaN(guess) || guess <= 0 || guess > 100) {
+          messageElement.textContent =
+            "Please enter a valid number between 1 and 100.";
+          return;
+        }
+
+        attemptsLeft--;
+        messageElement.textContent = `You have ${attemptsLeft} attempts left.`;
+
+        if (guess < secretNumber) {
+          messageElement.textContent = "Too low! Try again.";
+        } else if (guess > secretNumber) {
+          messageElement.textContent = "Too high! Try again.";
+        } else {
+          messageElement.textContent = `Congratulations! You guessed the number ${secretNumber} in ${
+            5 - attemptsLeft
+          } attempts left.`;
+        }
+
+        if (attemptsLeft === 0) {
+          messageElement.textContent =
+            "Game over! The number was " + secretNumber + ".";
+        }
+
+        guessInput.value = ""; // Clear the input field
+      });
+    </script>
+  </body>
+</html>
